@@ -1,7 +1,26 @@
 const request = require('request');
+const yargs = require('yargs');
+const fs = require('fs');
 
+const key = fs.readFileSync('key.txt');
+
+const uri = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+const argv = yargs
+    .options({
+        a: {
+            demand: true,
+            alias: 'address',
+            describe: 'Address to fetch weather for...',
+            string: true
+        }
+    })
+    .help()
+    .alias('help','h')
+    .argv;
+
+var encodedAddress = encodeURIComponent(argv.address);
 request({
-    url:'https://maps.googleapis.com/maps/api/geocode/json?address=270%20Marin%20Blvd%20Jersey%20City&key=AIzaSyDPW5tS_rfZUN3nCa1q9S92H1BZ0iO0WGM',
+    url:`${uri}${encodedAddress}&key=${key}`,
     json: true
 }, (error,response,body)=>{
     console.log(`Address: ${body.results[0].formatted_address}`);
