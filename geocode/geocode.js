@@ -7,7 +7,7 @@ const key = fs.readFileSync('./geocode/key.txt');
 var geocodeAddress = (address,callback) => {
     var encodedAddress = encodeURIComponent(address);
     request({
-        url: `${uri}${address}&key=${key}`,
+        url: `${uri}${encodedAddress}&key=${key}`,
         json: true
     }, (error, response, body) => {
         if (error) {
